@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DataService } from './data.service';
 
 
 @Component({
@@ -8,19 +9,26 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Plan My Flight';
+   flight_details =  {
+    source_name:'',
+  dest_name:'',
+  from_date:'',
+  to_date:'',
+  oneWay:false,
+  duration:0,
+  direct:false,
+  max_price:0,
+  agg_mode:'' 
+  };
+  public constructor(private _dataservice: DataService) {
+    
   
-  source_name:String
-  dest_name:String
-  from_date:String
-  to_date:String
-  oneWay:Boolean = false
-  duration:Number
-  direct:Boolean = false
-  max_price:Number
-  agg_mode:String
+}
+  
 
   onSubmit()
   {
-    console.log(this.source_name+":"+this.dest_name+":"+this.oneWay+":"+this.from_date+":"+this.to_date+":"+this.duration+":"+this.direct+":"+this.max_price+":"+this.agg_mode);
+    this._dataservice.myMethod(this.flight_details);
+    console.log(this.flight_details);
   }
 }
