@@ -14,11 +14,9 @@ export class DataService {
 
   // getCityCodes(value: any) {
   //   console.log('srvice ', value);
-
   //   return this.http.post(environment.USER_SERVER + '/getCityCodes', {value: value}).map((res) => {
   //     let data = res.json();
   //     console.log('data', data);
-
   //     return data || {};
   //   }).catch((error: any) => {
   //     return error;

@@ -18,8 +18,8 @@
           <input type="text" [(ngModel)]="dest_name" name="dest" id="inputDest" placeholder="Destination name">
         </div>
         <label for="inputDate">Journey Date</label>
-       
-        <input type="text" [(ngModel)]="from_date" name="from" id="inputFrom">
+        <input id="date" type="text" class="datepicker">
+        <!-- <input type="text" [(ngModel)]="from_date" name="from" id="inputFrom"> -->
         
         <div class="form-group">
           <button type="reset" class="btn btn-default">Cancel</button>
@@ -55,7 +55,7 @@
             {{destination}}
           </td>
           <td>
-             INR {{i.fare.total_price}}
+            ₹ {{i.fare.total_price}}
           </td>
           <td>
             {{i.itineraries[0].outbound.flights[0].departs_at}}

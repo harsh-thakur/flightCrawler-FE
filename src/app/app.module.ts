@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { DataService } from './data.service';
 import { HttpModule } from '@angular/http';
+import { DatePipe } from '@angular/common';
 
 
 @NgModule({
@@ -17,7 +18,7 @@ import { HttpModule } from '@angular/http';
     FormsModule
   ],
   
-  providers: [DataService],
+  providers: [DataService, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
