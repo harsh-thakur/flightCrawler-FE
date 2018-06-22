@@ -9,8 +9,7 @@ declare const $: any;
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'Plan My Flight';
-
+ 
   source_name: string
   dest_name: string
   from_date: string
