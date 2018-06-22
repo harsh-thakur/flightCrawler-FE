@@ -1,73 +1,76 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h5>
-    {{ title }}
-  </h5>
-</div>
-<div class="container" style="max-width:1000px;margin:20px auto;">
-  <div class="row custom-row">
-    <form class="form-horizontal">
-      <fieldset>
-        <legend>Plan Trip</legend>
-        <div class="input-field">
-          <label for="inputSource">Source</label>
-          <input type="text" [(ngModel)]="source_name" name="src" id="inputSource" placeholder="Source name">
-        </div>
-        <div class="input-field">
-          <label for="inputDest">Destination</label>
-          <input type="text" [(ngModel)]="dest_name" name="dest" id="inputDest" placeholder="Destination name">
-        </div>
-        <label for="inputDate">Journey Date</label>
-        <input id="date" type="text" class="datepicker">
-        <!-- <input type="text" [(ngModel)]="from_date" name="from" id="inputFrom"> -->
-        
-        <div class="form-group">
-          <button type="reset" class="btn btn-default">Cancel</button>
+
+<div class="outer_signin_signup ">
+  <div class="container">
+    <div class="row flex">
+      <div class="col m12 s12">
+        <div class="signup_right change">
+          <h5 style="text-align: center">Plan Flights</h5>
+          <div class="signup_form_inner">
+            <form class="form-horizontal">
+              <div class="row">
+                <div class="outer_position col s6 change">
+                  <h5 class="head">Source</h5>
+                  <input type="text" [(ngModel)]="source_name" name="src" id="inputSource" placeholder="Source">
+                </div>
+                <div class="outer_position col s6">
+                  <h5>Destination</h5>
+                  <input type="text" [(ngModel)]="dest_name" name="dest" id="inputDest" placeholder="destination">
+                </div>
+                <div class="outer_position col s6">
+                  <h5>Journey Date</h5>
+                  <input id="date" type="text" class="datepicker">
+                </div>
+              </div>
+              <div class="outer_position">
+                <button type="reset" class="btn btn-default">Cancel</button>
           <button type="submit" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+              </div>
+            </form>
+          </div>
         </div>
-      </fieldset>
-    </form>
+      </div>
+    </div>
   </div>
 </div>
+
+
 <div *ngIf="flag" class="container" style="max-width:1000px;margin:20px auto;">
-<div class="table_outer">
-  <table class="responsive_tables">
+  <div class="table_outer">
+    <table class="responsive_tables">
 
-    <thead>
-      <tr>
-        <th>AirLine Name</th>
-        <th>Source</th>
-        <th>Destination</th>
-        <th>Fare</th>
-        <th>Departure</th>
-      </tr>
-    </thead>
-    <tbody>
-      <ng-container  *ngFor="let i of totalRecord">
+      <thead>
         <tr>
-          <td>
-             {{airLines[i.itineraries[0].outbound.flights[0].operating_airline]}}
-          </td>
-          <td>
-           {{source}}
-          </td>
-          <td>
-            {{destination}}
-          </td>
-          <td>
-            ₹ {{i.fare.total_price}}
-          </td>
-          <td>
-            {{i.itineraries[0].outbound.flights[0].departs_at}}
-          </td>
+          <th>AirLine Name</th>
+          <th>Source</th>
+          <th>Destination</th>
+          <th>Fare</th>
+          <th>Departure</th>
         </tr>
-      </ng-container>
-    </tbody>
-  </table>
-  <div>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let i of totalRecord">
+          <tr>
+            <td>
+              {{airLines[i.itineraries[0].outbound.flights[0].operating_airline]}}
+           </td>
+           <td>
+            {{source}}
+           </td>
+           <td>
+             {{destination}}
+           </td>
+           <td>
+             ₹ {{i.fare.total_price}}
+           </td>
+           <td>
+             {{i.itineraries[0].outbound.flights[0].departs_at}}
+           </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+    <div>
+    </div>
+    <br>
+  </div>
 </div>
-  <br>
-</div>
-</div>
-
-<!-- style="width: 100%" *ngFor="let iterator of totalDetails | paginate: { itemsPerPage: kycPageSize, currentPage: currentKYCpage ,totalItems:totalRecord,id:'studentPagination1' }; let i = index;" -->
