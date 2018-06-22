@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from './data.service';
-// import { Component, OnInit , AfterViewInit} from '@angular/core';
-
+import { DatePipe } from '@angular/common';
+declare const $: any;
 
 @Component({
   selector: 'app-root',
@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
   airportObj: any;
   flag: boolean = false;
 
-  constructor(private ds: DataService) {
+  constructor(private ds: DataService,private datePipe: DatePipe) {
     this.destination = '';
     this.source = '';
     this.date = '';
@@ -197,8 +197,9 @@ export class AppComponent implements OnInit {
     }
   }
   ngOnInit() {
-    
-
+    $(document).ready(function(){
+      $('.datepicker').datepicker();
+    });
   }
 
 
@@ -215,13 +216,17 @@ export class AppComponent implements OnInit {
     });
   }
   onSubmit(){
+    let date = $('#date').val();
+    let finaldate = this.datePipe.transform(date,"yyyy-MM-dd")
   
   let obj = {
   origin : this.cityObj[this.source_name],
   dest: this.cityObj[this.dest_name],
-  date: this.from_date
+  date: finaldate
   }
   this.get(obj);
+    
+  
     
     
   }
