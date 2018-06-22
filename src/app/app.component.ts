@@ -9,8 +9,6 @@ declare const $: any;
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'Plan My Flight';
-
   source_name: string
   dest_name: string
   from_date: string
@@ -22,10 +20,8 @@ export class AppComponent implements OnInit {
   max_price: Number
   agg_mode: string
   airLines: any;
-
   destCode: any;
   originCode: any;
-
   destination: string;
   source: string;
   date: string;
