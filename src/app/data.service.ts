@@ -5,7 +5,7 @@ import { environment } from '../environments/environment';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class DataService {
@@ -14,20 +14,24 @@ export class DataService {
 
   // getCityCodes(value: any) {
   //   console.log('srvice ', value);
-
   //   return this.http.post(environment.USER_SERVER + '/getCityCodes', {value: value}).map((res) => {
   //     let data = res.json();
   //     console.log('data', data);
-
   //     return data || {};
   //   }).catch((error: any) => {
   //     return error;
   //   });
-
   // }
-getCityCodes(value: any) {
-    console.log('srvice ', value);
-    return this.http.post(environment.USER_SERVER + '/getCityCodes', {value: value}).map(res => res.json());
+  get(value){
+    return this.http.post(environment.USER_SERVER + '/get', value).map(
+      (response) => response.json())
+      .catch(e => {
+        if (e.status === 401) {
+          console.log('Error');
+        }
+        return [];
+      });
   }
+
 
 }

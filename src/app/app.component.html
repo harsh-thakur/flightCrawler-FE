@@ -18,56 +18,48 @@
           <input type="text" [(ngModel)]="dest_name" name="dest" id="inputDest" placeholder="Destination name">
         </div>
         <label for="inputDate">Journey Date</label>
-        <!-- <br> -->
-        <!-- <label for="inputFrom">On:</label> -->
-        <!-- <input id="todate" type="text" class="datepicker"> -->
-        <input type="text" [(ngModel)]="from_date" name="from" id="inputFrom">
-        <!-- <label for="inputTo">To:</label>
-        <input type="text" [(ngModel)]="to_date" name="to" id="inputTo"> -->
-        <!-- <div>
-          <input type="checkbox" id="oneWay" name="oneWay" [(ngModel)]="oneWay" />
-          <label for="oneWay">One Way</label>
-        </div>
-        <br>
-        <label for="duration">Duration</label>
-        <input type="text" [(ngModel)]="duration" name="dur" id="dur">
-        <br>
-        <input type="checkbox" id="direct" name="direct" [(ngModel)]="direct" />
-        <label for="direct">Direct</label>
-        <br>
-        <label for="max_price">Maximum Price</label>
-        <input type="text" [(ngModel)]="max_price" name="max_p" id="max_p">
-        <br> -->
+        <input id="date" type="text" class="datepicker">
+        <!-- <input type="text" [(ngModel)]="from_date" name="from" id="inputFrom"> -->
+        
         <div class="form-group">
           <button type="reset" class="btn btn-default">Cancel</button>
-          <button type="submit" class="btn btn-primary" (click)="getCityCodes()">Submit</button>
+          <button type="submit" class="btn btn-primary" (click)="onSubmit()">Submit</button>
         </div>
       </fieldset>
     </form>
   </div>
 </div>
-<div class="container" style="max-width:1000px;margin:20px auto;">
+<div *ngIf="flag" class="container" style="max-width:1000px;margin:20px auto;">
 <div class="table_outer">
   <table class="responsive_tables">
+
     <thead>
       <tr>
+        <th>AirLine Name</th>
         <th>Source</th>
         <th>Destination</th>
-        <th></th>
-        <th></th>
-
+        <th>Fare</th>
+        <th>Departure</th>
       </tr>
     </thead>
     <tbody>
-      <ng-container >
+      <ng-container  *ngFor="let i of totalRecord">
         <tr>
           <td>
-         
+            {{airLines[i.LowestFare.AirlineCodes[0]]}}
           </td>
           <td>
-           
+           {{source}}
           </td>
-          
+          <td>
+            {{destination}}
+          </td>
+          <td>
+            INR {{i.LowestFare.Fare}}
+          </td>
+          <td>
+            {{i.DepartureDateTime}}
+          </td>
         </tr>
       </ng-container>
     </tbody>
