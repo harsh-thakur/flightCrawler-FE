@@ -1,34 +1,68 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h5>
-    {{ title }}
-  </h5>
-</div>
-<div class="container" style="max-width:1000px;margin:20px auto;">
-  <div class="row custom-row">
-    <form class="form-horizontal">
-      <fieldset>
-        <legend>Plan Trip</legend>
-        <div class="input-field">
-          <label for="inputSource">Source</label>
-          <input type="text" [(ngModel)]="source_name" name="src" id="inputSource" placeholder="Source name">
+
+
+ <div class="row">
+  <div class="col s6 offset-s3">
+    <div class="card center">
+      <div class="card-content">
+        <div style="text-align:center">
+          <h5>
+            {{ title }}
+          </h5>
         </div>
-        <div class="input-field">
-          <label for="inputDest">Destination</label>
-          <input type="text" [(ngModel)]="dest_name" name="dest" id="inputDest" placeholder="Destination name">
+        <div class="container" style="max-width:1000px;margin:20px auto;">
+          <div class="row custom-row">
+            <form class="form-horizontal">
+              <fieldset>
+                <legend>Plan Trip</legend>
+                <div class="input-field">
+                  <label for="inputSource">Source</label>
+                  <input type="text" [(ngModel)]="source_name" name="src" id="inputSource" placeholder="Source name">
+                </div>
+                <div class="input-field">
+                  <label for="inputDest">Destination</label>
+                  <input type="text" [(ngModel)]="dest_name" name="dest" id="inputDest" placeholder="Destination name">
+                </div>
+                <label for="inputDate">Journey Date</label>
+                <input id="date" type="text" class="datepicker">
+                <!-- <input type="text" [(ngModel)]="from_date" name="from" id="inputFrom"> -->
+                
+                <div class="form-group">
+                  <button type="reset" class="btn btn-default">Cancel</button>
+                  <button type="submit" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+                </div>
+              </fieldset>
+            </form>
+          </div>
         </div>
-        <label for="inputDate">Journey Date</label>
-        <input id="date" type="text" class="datepicker">
-        <!-- <input type="text" [(ngModel)]="from_date" name="from" id="inputFrom"> -->
-        
-        <div class="form-group">
-          <button type="reset" class="btn btn-default">Cancel</button>
-          <button type="submit" class="btn btn-primary" (click)="onSubmit()">Submit</button>
-        </div>
-      </fieldset>
-    </form>
+      </div>
+      
+    </div>
   </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--The content below is only a placeholder and can be replaced.-->
+
 <div *ngIf="flag" class="container" style="max-width:1000px;margin:20px auto;">
 <div class="table_outer">
   <table class="responsive_tables">
@@ -46,7 +80,7 @@
       <ng-container  *ngFor="let i of totalRecord">
         <tr>
           <td>
-            {{airLines[i.LowestFare.AirlineCodes[0]]}}
+             {{airLines[i.itineraries[0].outbound.flights[0].operating_airline]}}
           </td>
           <td>
            {{source}}
@@ -55,10 +89,10 @@
             {{destination}}
           </td>
           <td>
-            INR {{i.LowestFare.Fare}}
+            ₹ {{i.fare.total_price}}
           </td>
           <td>
-            {{i.DepartureDateTime}}
+            {{i.itineraries[0].outbound.flights[0].departs_at}}
           </td>
         </tr>
       </ng-container>
@@ -70,4 +104,3 @@
 </div>
 </div>
 
-<!-- style="width: 100%" *ngFor="let iterator of totalDetails | paginate: { itemsPerPage: kycPageSize, currentPage: currentKYCpage ,totalItems:totalRecord,id:'studentPagination1' }; let i = index;" -->
