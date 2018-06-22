@@ -1,9 +1,16 @@
-<div class="outer_signin_signup ">
+<div class="main">
+  <div class="outer_signin_signup">
     <div class="container">
       <div class="row flex">
         <div class="col m12 s12">
           <div class="signup_right change">
             <h5 style="text-align: center">Plan Flights</h5>
+            <div class="custom-overlay active" *ngIf="loading"></div>
+            <div *ngIf="loading" class="spinner">
+              <div class="bounce1"></div>
+              <div class="bounce2"></div>
+              <div class="bounce3"></div>
+            </div>
             <div class="signup_form_inner">
               <form class="form-horizontal">
                 <div class="row">
@@ -22,7 +29,7 @@
                 </div>
                 <div class="outer_position">
                   <button type="reset" class="btn btn-default">Cancel</button>
-            <button type="submit" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+                  <button type="submit" class="btn btn-primary" (click)="onSubmit()">Submit</button>
                 </div>
               </form>
             </div>
@@ -31,12 +38,9 @@
       </div>
     </div>
   </div>
-  
-  
   <div *ngIf="flag" class="container" style="max-width:1000px;margin:20px auto;">
     <div class="table_outer">
       <table class="responsive_tables">
-  
         <thead>
           <tr>
             <th>AirLine Name</th>
@@ -51,19 +55,19 @@
             <tr>
               <td>
                 {{airLines[i.itineraries[0].outbound.flights[0].operating_airline]}}
-             </td>
-             <td>
-              {{source}}
-             </td>
-             <td>
-               {{destination}}
-             </td>
-             <td>
-               ₹ {{i.fare.total_price}}
-             </td>
-             <td>
-               {{i.itineraries[0].outbound.flights[0].departs_at}}
-             </td>
+              </td>
+              <td>
+                {{source}}
+              </td>
+              <td>
+                {{destination}}
+              </td>
+              <td>
+                ₹ {{i.fare.total_price}}
+              </td>
+              <td>
+                {{i.itineraries[0].outbound.flights[0].departs_at}}
+              </td>
             </tr>
           </ng-container>
         </tbody>
@@ -73,3 +77,4 @@
       <br>
     </div>
   </div>
+</div>

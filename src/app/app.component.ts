@@ -13,6 +13,7 @@ export class AppComponent implements OnInit {
   source_name: string
   dest_name: string
   from_date: string
+  loading: boolean;
   to_date: string
   oneWay: Boolean = false
   duration: Number
@@ -32,14 +33,14 @@ export class AppComponent implements OnInit {
   airportObj: any;
   flag: boolean = false;
 
-  constructor(private ds: DataService,private datePipe: DatePipe) {
+  constructor(private ds: DataService, private datePipe: DatePipe) {
     this.destination = '';
     this.source = '';
     this.date = '';
-
+    this.loading = false;
     this.originCode = '';
     this.destCode = '';
-   
+
     this.airLines = {
       "AI": 'Air India',
       "9W": 'Jet Airways',
@@ -56,58 +57,53 @@ export class AppComponent implements OnInit {
       "ZO": 'Zoom Air',
       "BZ": 'Blue Dart Aviation',
       "QO": 'Quikjet Airlines',
-
     }
-    
+
   }
   ngOnInit() {
-    $(document).ready(function(){
+    $(document).ready(function () {
       $('.datepicker').datepicker();
     });
   }
 
- toTitleCase(str) {
+  toTitleCase(str) {
     return str.replace(
-        /\w\S*/g,
-        function(txt) {
-            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-        }
+      /\w\S*/g,
+      function (txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      }
     );
-}
+  }
 
-  get(value:any) {
+  get(value: any) {
+    this.loading = true;
     this.ds.get(value).subscribe(d => {
       if (d.success === true) {
+        this.loading = false;
         this.flag = true;
         console.log(d);
-        
-         this.source = this.toTitleCase(this.source_name);
-         this.destination = this.toTitleCase(this.dest_name);
-         this.totalRecord = d.data.results;
-         console.log(this.totalRecord);
-         
-        // this.destination = this.airportObj[d.data.DestinationLocation];
-        // this.totalRecord = d.data.FareInfo;
-        // console.log(this.source, this.destination, this.totalRecord);
 
+        this.source = this.toTitleCase(this.source_name);
+        this.destination = this.toTitleCase(this.dest_name);
+        this.totalRecord = d.data.results;
+        console.log(this.totalRecord);
       }
-      else{
+      else {
+        this.loading = false;
         alert(d.msg)
       }
     });
   }
-  onSubmit(){
+  onSubmit() {
     let date = $('#date').val();
-    let finaldate = this.datePipe.transform(date,"yyyy-MM-dd")
-  
-  let obj = {
-  origin : this.source_name,
-  dest: this.dest_name,
-  date: finaldate
-  }
-  this.get(obj);
-    
-  
+    let finaldate = this.datePipe.transform(date, "yyyy-MM-dd")
+
+    let obj = {
+      origin: this.source_name,
+      dest: this.dest_name,
+      date: finaldate
+    }
+    this.get(obj);
 
   }
 }
