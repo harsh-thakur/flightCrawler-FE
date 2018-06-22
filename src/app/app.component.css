@@ -1,0 +1,11 @@
+.outer_position{width:100%;height:auto;float:left;position:relative}
+.outer_signin_signup .row.flex > div{padding:0;margin:0}
+.outer_signin_signup { padding:50px 0; }
+.outer_signin_signup{padding:60px 0}
+.signup_right{width:100%;height:auto;float:left;background:#fff;padding:60px;-webkit-box-shadow:0 0 21px #d3d3d3;-moz-box-shadow:0 0 21px #d3d3d3;box-shadow:0 0 21px #d3d3d3;-ms-box-shadow:0 0 21px #d3d3d3;-o-box-shadow:0 0 21px #d3d3d3}
+.outer_signin_signup .row.flex > div{padding:0;margin:0}
+.signup_form_inner h5{width:100%;height:auto;float:left;color:#282828;font-size:14px;line-height:21px;font-weight:500;margin:20px 0 5px}
+.signup_form_inner input[type="text"],.signup_form_inner input[type="password"],.signup_form_inner input[type="email"],.signup_form_inner input[type="number"]{width:100%;height:38px;float:left;border-radius:3px;-webkit-box-shadow:0 3px 7px rgba(0,0,0,0.04);-moz-box-shadow:0 3px 7px rgba(0,0,0,0.04);box-shadow:0 3px 7px rgba(0,0,0,0.04);-ms-box-shadow:0 3px 7px rgba(0,0,0,0.04);-o-box-shadow:0 3px 7px rgba(0,0,0,0.04);border:1px solid #e9e9e9;padding:0 10px;box-sizing:border-box;background:#f8fcfe;margin:0 0 10px}
+.change{
+    background-color:rgb(51, 126, 238)
+}

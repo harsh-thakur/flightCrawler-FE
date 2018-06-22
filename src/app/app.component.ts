@@ -109,7 +109,6 @@ export class AppComponent implements OnInit {
   this.get(obj);
     
   
-    
-    
+
   }
 }
