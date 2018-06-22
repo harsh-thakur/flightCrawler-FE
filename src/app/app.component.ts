@@ -36,6 +36,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.originCode = '';
     this.destCode = '';
     this.minTravelDate = this.getDate(new Date());
+
+
     this.airLines = {
       "AI": 'Air India',
       "9W": 'Jet Airways',
@@ -61,10 +63,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     $(document).ready(function () {
       $('.datepicker').datepicker();
     });
-    // var instance = M.Datepicker.getInstance(elem);
-    $('select').material_select();
-    // $('.datepicker').datepicker('methodName', paramName);
-   $('#travelDate').datepicker({ minDate: new Date() }) 
+
+   $('#date').datepicker({ minDate: new Date() }) 
    
   }
 
