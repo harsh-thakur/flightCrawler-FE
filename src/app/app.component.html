@@ -27,12 +27,11 @@
                     <input id="date" type="text" class="datepicker">
                   </div>
                 </div>
-                <div class="outer_position">
-                  <button type="reset" class="btn btn-default">Cancel</button>
-                  <button type="submit" class="btn btn-primary" (click)="onSubmit()">Submit</button>
-                </div>
-              </form>
-            </div>
+              <div class="outer_position">
+                <button type="reset" class="btn btn-default">Reset</button>
+          <button type="submit" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -48,26 +47,31 @@
             <th>Destination</th>
             <th>Fare</th>
             <th>Departure</th>
+            <th>Departure Time</th>
           </tr>
         </thead>
         <tbody>
           <ng-container *ngFor="let i of totalRecord">
             <tr>
-              <td>
-                {{airLines[i.itineraries[0].outbound.flights[0].operating_airline]}}
-              </td>
-              <td>
-                {{source}}
-              </td>
-              <td>
-                {{destination}}
-              </td>
-              <td>
-                ₹ {{i.fare.total_price}}
-              </td>
-              <td>
-                {{i.itineraries[0].outbound.flights[0].departs_at}}
-              </td>
+                <td>
+                    {{airLines[i.itineraries[0].outbound.flights[0].operating_airline]}}
+                 </td>
+                 <td>
+                  {{source}}
+                 </td>
+                 <td>
+                   {{destination}}
+                 </td>
+                 <td>
+                   ₹ {{i.fare.total_price}}
+                 </td>
+                 <td>
+                   {{i.itineraries[0].outbound.flights[0].departs_at[0]}}
+                 </td>
+                 <td>
+                    {{i.itineraries[0].outbound.flights[0].departs_at[1]}}
+      
+                 </td>
             </tr>
           </ng-container>
         </tbody>
