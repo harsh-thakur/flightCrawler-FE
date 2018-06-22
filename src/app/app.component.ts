@@ -201,24 +201,41 @@ export class AppComponent implements OnInit {
 
   }
 
+ toTitleCase(str) {
+    return str.replace(
+        /\w\S*/g,
+        function(txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        }
+    );
+}
 
   get(value:any) {
     this.ds.get(value).subscribe(d => {
       if (d.success === true) {
         this.flag = true;
-        this.source = this.airportObj[d.data.OriginLocation];
-        this.destination = this.airportObj[d.data.DestinationLocation];
-        this.totalRecord = d.data.FareInfo;
-        console.log(this.source, this.destination, this.totalRecord);
+        console.log(d);
+        
+         this.source = this.toTitleCase(this.source_name);
+         this.destination = this.toTitleCase(this.dest_name);
+         this.totalRecord = d.data.results;
+         console.log(this.totalRecord);
+         
+        // this.destination = this.airportObj[d.data.DestinationLocation];
+        // this.totalRecord = d.data.FareInfo;
+        // console.log(this.source, this.destination, this.totalRecord);
 
+      }
+      else{
+        alert(d.msg)
       }
     });
   }
   onSubmit(){
   
   let obj = {
-  origin : this.cityObj[this.source_name],
-  dest: this.cityObj[this.dest_name],
+  origin : this.source_name,
+  dest: this.dest_name,
   date: this.from_date
   }
   this.get(obj);

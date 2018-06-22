@@ -46,7 +46,7 @@
       <ng-container  *ngFor="let i of totalRecord">
         <tr>
           <td>
-            {{airLines[i.LowestFare.AirlineCodes[0]]}}
+             {{airLines[i.itineraries[0].outbound.flights[0].operating_airline]}}
           </td>
           <td>
            {{source}}
@@ -55,10 +55,10 @@
             {{destination}}
           </td>
           <td>
-            INR {{i.LowestFare.Fare}}
+             INR {{i.fare.total_price}}
           </td>
           <td>
-            {{i.DepartureDateTime}}
+            {{i.itineraries[0].outbound.flights[0].departs_at}}
           </td>
         </tr>
       </ng-container>
