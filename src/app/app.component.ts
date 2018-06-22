@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { DataService } from './data.service';
 import { DatePipe } from '@angular/common';
 declare const $: any;
@@ -8,18 +8,11 @@ declare const $: any;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   title = 'Plan My Flight';
 
   source_name: string
   dest_name: string
-  from_date: string
-  to_date: string
-  oneWay: Boolean = false
-  duration: Number
-  direct: Boolean = false
-  max_price: Number
-  agg_mode: string
   airLines: any;
 
   destCode: any;
@@ -32,6 +25,8 @@ export class AppComponent implements OnInit {
   cityObj: any;
   airportObj: any;
   flag: boolean = false;
+  loading: boolean = false;
+  minTravelDate:any;
 
   constructor(private ds: DataService,private datePipe: DatePipe) {
     this.destination = '';
@@ -40,7 +35,7 @@ export class AppComponent implements OnInit {
 
     this.originCode = '';
     this.destCode = '';
-   
+    this.minTravelDate = this.getDate(new Date());
     this.airLines = {
       "AI": 'Air India',
       "9W": 'Jet Airways',
@@ -62,9 +57,16 @@ export class AppComponent implements OnInit {
     
   }
   ngOnInit() {
-    $(document).ready(function(){
+  }
+  ngAfterViewInit(){
+    $(document).ready(function () {
       $('.datepicker').datepicker();
     });
+    // var instance = M.Datepicker.getInstance(elem);
+    $('select').material_select();
+    // $('.datepicker').datepicker('methodName', paramName);
+   $('#travelDate').datepicker({ minDate: new Date() }) 
+   
   }
 
  toTitleCase(str) {
@@ -76,16 +78,39 @@ export class AppComponent implements OnInit {
     );
 }
 
+
+getDate(date) {
+
+  var dateReceive = new Date(date);
+
+
+  var day = ("0" + dateReceive.getDate()).slice(-2);
+  var month = ("0" + (dateReceive.getMonth() + 1)).slice(-2);
+
+  return dateReceive.getFullYear() + "-" + (month) + "-" + (day);
+
+}
   get(value:any) {
+    this.loading = true;
     this.ds.get(value).subscribe(d => {
       if (d.success === true) {
+        this.loading = false;
         this.flag = true;
-        console.log(d);
-        
          this.source = this.toTitleCase(this.source_name);
          this.destination = this.toTitleCase(this.dest_name);
          this.totalRecord = d.data.results;
-         console.log(this.totalRecord);
+         console.log(this.totalRecord.length);
+
+        this.totalRecord.forEach(element => {
+          element.itineraries.forEach(element => {
+            element.outbound.flights.forEach(element => {
+              element.departs_at = element.departs_at.split('T');
+            });
+          });
+          
+        });
+
+
          
         // this.destination = this.airportObj[d.data.DestinationLocation];
         // this.totalRecord = d.data.FareInfo;
@@ -93,6 +118,7 @@ export class AppComponent implements OnInit {
 
       }
       else{
+        this.loading = false;
         alert(d.msg)
       }
     });
@@ -109,6 +135,7 @@ export class AppComponent implements OnInit {
   this.get(obj);
     
   
-
+    
+    
   }
 }

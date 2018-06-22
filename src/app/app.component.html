@@ -1,4 +1,5 @@
-
+<div class="spinner">
+  </div>
 <div class="outer_signin_signup ">
   <div class="container">
     <div class="row flex">
@@ -18,11 +19,13 @@
                 </div>
                 <div class="outer_position col s6">
                   <h5>Journey Date</h5>
-                  <input id="date" type="text" class="datepicker">
+                  <input id="travelDate"  class="datepicker" type="text" min={{minTravelDate}}>
+
+                  <!-- <input id="date" type="text" class="datepicker"> -->
                 </div>
               </div>
               <div class="outer_position">
-                <button type="reset" class="btn btn-default">Cancel</button>
+                <button type="reset" class="btn btn-default">Reset</button>
           <button type="submit" class="btn btn-primary" (click)="onSubmit()">Submit</button>
               </div>
             </form>
@@ -33,6 +36,39 @@
   </div>
 </div>
 
+<div class="custom-overlay active" *ngIf="loading"></div>
+<div *ngIf="loading" class="spinner">
+  <svg version="1.1" id="L5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+  viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
+  <circle fill="#4c5d62" stroke="none" cx="6" cy="50" r="6">
+    <animateTransform 
+      attributeName="transform" 
+      dur="1s" 
+      type="translate" 
+      values="0 15 ; 0 -15; 0 15" 
+      repeatCount="indefinite" 
+      begin="0.1"/>
+  </circle>
+  <circle fill="#4c5d62" stroke="none" cx="30" cy="50" r="6">
+    <animateTransform 
+      attributeName="transform" 
+      dur="1s" 
+      type="translate" 
+      values="0 10 ; 0 -10; 0 10" 
+      repeatCount="indefinite" 
+      begin="0.2"/>
+  </circle>
+  <circle fill="#4c5d62" stroke="none" cx="54" cy="50" r="6">
+    <animateTransform 
+      attributeName="transform" 
+      dur="1s" 
+      type="translate" 
+      values="0 5 ; 0 -5; 0 5" 
+      repeatCount="indefinite" 
+      begin="0.3"/>
+  </circle>
+  </svg>
+</div>
 
 <div *ngIf="flag" class="container" style="max-width:1000px;margin:20px auto;">
   <div class="table_outer">
@@ -44,7 +80,8 @@
           <th>Source</th>
           <th>Destination</th>
           <th>Fare</th>
-          <th>Departure</th>
+          <th>Departure Date</th>
+          <th>Departure Time</th>
         </tr>
       </thead>
       <tbody>
@@ -63,7 +100,11 @@
              ₹ {{i.fare.total_price}}
            </td>
            <td>
-             {{i.itineraries[0].outbound.flights[0].departs_at}}
+             {{i.itineraries[0].outbound.flights[0].departs_at[0]}}
+           </td>
+           <td>
+              {{i.itineraries[0].outbound.flights[0].departs_at[1]}}
+
            </td>
           </tr>
         </ng-container>
@@ -74,3 +115,5 @@
     <br>
   </div>
 </div>
+
+

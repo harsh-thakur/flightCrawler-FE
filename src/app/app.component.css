@@ -9,3 +9,19 @@
 .change{
     background-color:rgb(85, 147, 240)
 }
+
+.custom-overlay.active{display: block}
+.custom-overlay{
+    position: fixed; 
+    display: none;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index:9;
+    background-color: #065170;
+    opacity: 0.5;
+}
+/* .custom-overlay.sidebar-overlay {
+    z-index: 1100;
+} */
