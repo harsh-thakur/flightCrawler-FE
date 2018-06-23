@@ -1,84 +1,101 @@
 <div class="main">
-  <div class="outer_signin_signup">
-    <div class="container">
-      <div class="row flex">
-        <div class="col m12 s12">
-          <div class="signup_right change">
-            <h5 style="text-align: center">Plan Flights</h5>
-            <div class="custom-overlay active" *ngIf="loading"></div>
-            <div *ngIf="loading" class="spinner">
-              <div class="bounce1"></div>
-              <div class="bounce2"></div>
-              <div class="bounce3"></div>
-            </div>
-            <div class="signup_form_inner">
-              <form class="form-horizontal">
-                <div class="row">
-                  <div class="outer_position col s6 change">
-                    <h5 class="head">Source</h5>
-                    <input type="text" [(ngModel)]="source_name" name="src" id="inputSource" placeholder="Source">
-                  </div>
-                  <div class="outer_position col s6">
-                    <h5>Destination</h5>
-                    <input type="text" [(ngModel)]="dest_name" name="dest" id="inputDest" placeholder="destination">
-                  </div>
-                  <div class="outer_position col s6">
-                    <h5>Journey Date</h5>
-                    <input type="text" class="datepicker" id="fromDate">
-                  </div>
-                </div>
-              <div class="outer_position">
-                <button type="reset" class="btn btn-default">Reset</button>
-          <button type="submit" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+    <div class="outer_signin_signup">
+      <div class="container">
+        <div class="row flex">
+          <div class="col m12 s12">
+            <div class="signup_right change">
+              <h5 style="text-align: center">Plan Flights</h5>
+              <div class="custom-overlay active" *ngIf="loading"></div>
+              <div *ngIf="loading" class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
               </div>
-            </form>
+              <div class="signup_form_inner">
+                <form class="form-horizontal">
+                  <div class="row">
+                    <div class="outer_position col s6 change">
+                      <h5 class="head">Source</h5>
+                      <input type="text" [(ngModel)]="source_name" name="src" id="inputSource" placeholder="Source">
+                    </div>
+                    <div class="outer_position col s6">
+                      <h5>Destination</h5>
+                      <input type="text" [(ngModel)]="dest_name" name="dest" id="inputDest" placeholder="destination">
+                    </div>
+                    <div class="outer_position col s6">
+                      <h5>Journey Date</h5>
+                      <input id="date" type="text" class="datepicker" min={{minTravelDate}}>
+                    </div>
+                  </div>
+                <div class="outer_position">
+                  <button type="reset" class="btn btn-default">Reset</button>
+            <button type="submit" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div *ngIf="flag" class="container" style="max-width:1000px;margin:20px auto;">
-    <div class="table_outer">
-      <table class="responsive_tables">
-        <thead>
-          <tr>
-            <th>AirLine Name</th>
-            <th>Source</th>
-            <th>Destination</th>
-            <th>Fare</th>
-            <th>Departure</th>
-            <th>Departure Time</th>
-          </tr>
-        </thead>
-        <tbody>
-          <ng-container *ngFor="let i of totalRecord">
+    <div *ngIf="flag" class="container" style="max-width:1000px;margin:20px auto;">
+      <div class="table_outer">
+        <table class="responsive_tables">
+          <thead>
             <tr>
-                <td>
-                    {{airLines[i.itineraries[0].outbound.flights[0].operating_airline]}}
-                 </td>
-                 <td>
-                  {{source}}
-                 </td>
-                 <td>
-                   {{destination}}
-                 </td>
-                 <td>
-                   ₹ {{i.fare.total_price}}
-                 </td>
-                 <td>
-                   {{i.itineraries[0].outbound.flights[0].departs_at[0]}}
-                 </td>
-                 <td>
-                    {{i.itineraries[0].outbound.flights[0].departs_at[1]}}
-      
-                 </td>
+              <th>AirLine Name</th>
+              <th>Source</th>
+              <th>Destination</th>
+              <th>Total Fare</th>
+              <th>Tax</th>
+              <th>Total Price</th>
+              <th>Departure Date</th>
+              <th>Departure Time</th>
+              <th>Arrival Time</th>
+              
+
             </tr>
-          </ng-container>
-        </tbody>
-      </table>
-      <div>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let i of totalRecord">
+              <tr>
+                  <td>
+                      {{airLines[i.itineraries[0].outbound.flights[0].operating_airline]}}
+                   </td>
+                   <td>
+                    {{source}}
+                   </td>
+                   <td>
+                     {{destination}}
+                   </td>
+                   <td>
+                    ₹{{i.fare.price_per_adult.total_fare}}
+                   </td>
+                   <td>
+                    ₹{{i.fare.price_per_adult.tax}}
+                    </td>
+
+                   <td>
+                     ₹ {{totalPrice(i)}}
+                   </td>
+                   <td>
+                     {{i.itineraries[0].outbound.flights[0].departs_at[0]}}
+                   </td>
+                   <td>
+                      {{i.itineraries[0].outbound.flights[0].departs_at[1]}}
+                   </td>
+
+                   <td>
+                     {{i.itineraries[0].outbound.flights[0].arrives_at[1]}}
+                   </td>
+
+
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+        <div>
+        </div>
+        <br>
       </div>
-      <br>
     </div>
   </div>
-</div>
