@@ -43,20 +43,26 @@
           <thead>
             <tr>
               <th>AirLine Name</th>
+              <th>Flight Code</th>
               <th>Source</th>
               <th>Destination</th>
               <th>Fare</th>
-              <th>Departure</th>
-              <th>Depar. Time</th>
+              <th>Tax</th>
+              <th>Total Price</th>
+              <th>Departure Date</th>
+              <th>Departure Time</th>
+              <th>Arrival Time</th>
+              <th>Travel Duration</th>
             </tr>
-
-            <button (click)="download()">download </button>
           </thead>
           <tbody>
             <ng-container *ngFor="let i of totalRecord">
               <tr>
                 <td>
-                  {{airLines[i.itineraries[0].outbound.flights[0].operating_airline]}} ({{i.itineraries[0].outbound.flights[0].operating_airline}})
+                  {{airLines[i.itineraries[0].outbound.flights[0].operating_airline]}}({{i.itineraries[0].outbound.flights[0].operating_airline}})
+                </td>
+                <td>
+                  {{i.itineraries[0].outbound.flights[0].flight_number}}
                 </td>
                 <td>
                   {{source}}
@@ -65,13 +71,25 @@
                   {{destination}}
                 </td>
                 <td>
-                  ₹ {{i.fare.total_price}}
+                  ₹{{i.fare.price_per_adult.total_fare}}
+                </td>
+                <td>
+                  ₹{{i.fare.price_per_adult.tax}}
+                </td>
+                <td>
+                  ₹{{totalPrice(i)}}
                 </td>
                 <td>
                   {{i.itineraries[0].outbound.flights[0].departs_at[0]}}
                 </td>
                 <td>
                   {{i.itineraries[0].outbound.flights[0].departs_at[1]}}
+                </td>
+                <td>
+                  {{i.itineraries[0].outbound.flights[0].arrives_at[1]}}
+                </td>
+                <td>
+                  {{i.itineraries[0].outbound.duration}} Hrs
                 </td>
               </tr>
             </ng-container>

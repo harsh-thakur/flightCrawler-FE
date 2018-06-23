@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
   source_name: string
   dest_name: string
   airLines: any;
+  total_price:any;
   destCode: any;
   originCode: any;
   destination: string;
@@ -72,6 +73,14 @@ export class AppComponent implements OnInit {
 
   }
 
+
+totalPrice(price){
+  this.total_price = parseFloat(price.fare.price_per_adult.total_fare) + parseFloat(price.fare.price_per_adult.tax) 
+  return this.total_price;
+
+}
+
+
   toTitleCase(str) {
     return str.replace(
       /\w\S*/g,
@@ -120,8 +129,18 @@ export class AppComponent implements OnInit {
               }
               this.csvObj.push(this.obj1);
             });
+            el.outbound.flights.forEach(el => {
+              el.arrives_at = el.arrives_at.split('T');
+              
+            })
           });
         });
+
+
+         
+        // this.destination = this.airportObj[d.data.DestinationLocation];
+        // this.totalRecord = d.data.FareInfo;
+        // console.log(this.source, this.destination, this.totalRecord);
         this.source = this.toTitleCase(this.source_name);
         this.destination = this.toTitleCase(this.dest_name);
         this.totalRecord = d.data.results;
