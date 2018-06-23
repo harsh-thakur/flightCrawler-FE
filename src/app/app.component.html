@@ -43,14 +43,17 @@
           <thead>
             <tr>
               <th>AirLine Name</th>
+              <th>Flight Code</th>
               <th>Source</th>
               <th>Destination</th>
-              <th>Total Fare</th>
+              <th>Fare</th>
               <th>Tax</th>
               <th>Total Price</th>
               <th>Departure Date</th>
               <th>Departure Time</th>
               <th>Arrival Time</th>
+              <th>Travel Duration</th>
+            
               
 
             </tr>
@@ -61,6 +64,11 @@
                   <td>
                       {{airLines[i.itineraries[0].outbound.flights[0].operating_airline]}}
                    </td>
+
+                   <td>
+                     {{i.itineraries[0].outbound.flights[0].flight_number}}
+                   </td>
+
                    <td>
                     {{source}}
                    </td>
@@ -68,14 +76,14 @@
                      {{destination}}
                    </td>
                    <td>
-                     {{i.fare.price_per_adult.total_fare}}
+                    ₹{{i.fare.price_per_adult.total_fare}}
                    </td>
                    <td>
-                      {{i.fare.price_per_adult.tax}}
+                    ₹{{i.fare.price_per_adult.tax}}
                     </td>
 
                    <td>
-                     ₹ {{totalPrice(i)}}
+                     ₹{{totalPrice(i)}}
                    </td>
                    <td>
                      {{i.itineraries[0].outbound.flights[0].departs_at[0]}}
@@ -87,7 +95,10 @@
                    <td>
                      {{i.itineraries[0].outbound.flights[0].arrives_at[1]}}
                    </td>
-
+                   <td>
+                     {{i.itineraries[0].outbound.duration}} Hrs
+                   </td>
+                  
 
               </tr>
             </ng-container>
