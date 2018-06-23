@@ -64,7 +64,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       $('.datepicker').datepicker();
     });
 
-   $('#date').datepicker({ minDate: new Date() }) 
+   $('#fromDate').datepicker({ minDate: new Date() }) 
    
   }
 
