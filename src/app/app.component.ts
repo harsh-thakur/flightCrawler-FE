@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { DataService } from './data.service';
 import { DatePipe } from '@angular/common';
+import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 declare const $: any;
 
 @Component({
@@ -9,6 +10,7 @@ declare const $: any;
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  private allItems: {};
   source_name: string
   dest_name: string
   airLines: any;
@@ -22,7 +24,11 @@ export class AppComponent implements OnInit {
   airportObj: any;
   flag: boolean = false;
   loading: boolean = false;
-  minTravelDate:any;
+  minTravelDate: any;
+  data1: any;
+  obj2: any;
+  obj1: any;
+  csvObj: any = new Array();
 
   constructor(private ds: DataService, private datePipe: DatePipe) {
     this.destination = '';
@@ -31,6 +37,8 @@ export class AppComponent implements OnInit {
     this.loading = false;
     this.originCode = '';
     this.destCode = '';
+
+
     this.minTravelDate = this.getDate(new Date());
 
 
@@ -55,13 +63,13 @@ export class AppComponent implements OnInit {
   }
   ngOnInit() {
   }
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     $(document).ready(function () {
       $('.datepicker').datepicker();
     });
 
-   $('#date').datepicker({ minDate: new Date() }) 
-   
+    $('#date').datepicker({ minDate: new Date() })
+
   }
 
   toTitleCase(str) {
@@ -74,47 +82,57 @@ export class AppComponent implements OnInit {
   }
 
 
-getDate(date) {
+  getDate(date) {
 
-  var dateReceive = new Date(date);
+    var dateReceive = new Date(date);
 
 
-  var day = ("0" + dateReceive.getDate()).slice(-2);
-  var month = ("0" + (dateReceive.getMonth() + 1)).slice(-2);
+    var day = ("0" + dateReceive.getDate()).slice(-2);
+    var month = ("0" + (dateReceive.getMonth() + 1)).slice(-2);
 
-  return dateReceive.getFullYear() + "-" + (month) + "-" + (day);
+    return dateReceive.getFullYear() + "-" + (month) + "-" + (day);
 
-}
-  get(value:any) {
+  }
+  get(value: any) {
     this.loading = true;
     this.ds.get(value).subscribe(d => {
       if (d.success === true) {
         this.loading = false;
         this.flag = true;
-         this.source = this.toTitleCase(this.source_name);
-         this.destination = this.toTitleCase(this.dest_name);
-         this.totalRecord = d.data.results;
-         console.log(this.totalRecord.length);
-
-        this.totalRecord.forEach(element => {
-          element.itineraries.forEach(element => {
-            element.outbound.flights.forEach(element => {
-              element.departs_at = element.departs_at.split('T');
-            });
-          });
-          
-        });
-
-
-         
-        // this.destination = this.airportObj[d.data.DestinationLocation];
-        // this.totalRecord = d.data.FareInfo;
-        // console.log(this.source, this.destination, this.totalRecord);
-
         this.source = this.toTitleCase(this.source_name);
         this.destination = this.toTitleCase(this.dest_name);
         this.totalRecord = d.data.results;
-        console.log(this.totalRecord);
+        console.log(this.totalRecord.length);
+
+        this.totalRecord.forEach(el => {
+          let fare2 = el.fare.total_price;
+          el.itineraries.forEach(el => {
+            el.outbound.flights.forEach(el => {
+              el.departs_at = el.departs_at.split('T');
+              this.obj1 = {
+                airline: el.operating_airline,
+                source: this.source,
+                dest: this.destination,
+                departure: el.departs_at,
+                fare: fare2
+              
+                // fare: el.fare.total_price
+              }
+              this.csvObj.push(this.obj1);
+            });
+          });
+        });
+        this.source = this.toTitleCase(this.source_name);
+        this.destination = this.toTitleCase(this.dest_name);
+        this.totalRecord = d.data.results;
+        // console.log(this.totalRecord);
+
+
+        console.log('csvvvvv', this.csvObj);
+
+
+
+
       }
       else {
         this.loading = false;
@@ -122,16 +140,52 @@ getDate(date) {
       }
     });
   }
+
+
+
   onSubmit() {
     let date = $('#date').val();
     let finaldate = this.datePipe.transform(date, "yyyy-MM-dd")
-
     let obj = {
       origin: this.source_name,
       dest: this.dest_name,
       date: finaldate
     }
     this.get(obj);
+  }
+
+
+
+  download() {
+    console.log(this.csvObj);
+
+    var options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalseparator: '.',
+      showLabels: true,
+      showTitle: true,
+      headers: ['AirLine Code', 'Source', 'Destination', 'Depar. Date','Depar. Time','Fare']
+    };
+
+    this.data1 = this.totalRecord.forEach(element => {
+      element.itineraries.forEach(element => {
+        element.outbound.flights.forEach(element => {
+          element.departs_at;
+        });
+      });
+    });
+
+
+    new Angular2Csv(this.csvObj, 'My Report', options);
+    //new Angular2Csv(dummyData, 'My Report',options);
+  }
+
+  csv() {
 
   }
+
+
+
+
 }
