@@ -119,7 +119,7 @@ totalPrice(price){
                 fare: fare2,
                 tax: tax1,
                 final: total,
-                departureDate: el.departs_at[index],
+                departureDate: this.finaldate,  //el.departs_at[index],
                 departureTime: el.departs_at[index+1],
                 duration: check1
               }
