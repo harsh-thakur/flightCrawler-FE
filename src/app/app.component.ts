@@ -102,45 +102,68 @@ totalPrice(price){
         this.totalRecord = d.data.results;
         console.log(this.totalRecord.length, this.totalRecord);
 
-        this.totalRecord.forEach(el => {
-                                let fare2 = el.fare.price_per_adult.total_fare;
-                                let tax1 = el.fare.price_per_adult.tax;
-                                let total = parseFloat(fare2) + parseFloat(tax1);
-            el.itineraries.every(el => {
+        // this.totalRecord.forEach(el => {
+        //                         let fare2 = el.fare.price_per_adult.total_fare;
+        //                         let tax1 = el.fare.price_per_adult.tax;
+        //                         let total = parseFloat(fare2) + parseFloat(tax1);
+        //     el.itineraries.every(el => {
 
-            let check1 = el.outbound.duration;
-              el.outbound.flights.every((el, index) => {
-                el.departs_at = el.departs_at.split('T');
+        //     let check1 = el.outbound.duration;
+        //       el.outbound.flights.every((el, index) => {
+        //         el.departs_at = el.departs_at.split('T');
+        //       this.obj1 = {
+        //         airline: el.operating_airline,
+        //         flightCode: el.flight_number,
+        //         source: this.source,
+        //         dest: this.destination,
+        //         fare: fare2,
+        //         tax: tax1,
+        //         final: total,
+        //         departureDate: el.departs_at[index],
+        //         departureTime: el.departs_at[index+1],
+        //         duration: check1
+        //       }
+        //       this.csvObj.push(this.obj1);
+        //       return false;
+        //     });
+        //     el.outbound.flights.every(el => {
+        //       el.arrives_at = el.arrives_at.split('T');
+        //       return false;
+        //     })
+        //     return false;
+        //   });
+        // });
+    
+
+        for(var tr = 0; tr< this.totalRecord.length; tr++){
+
+          let fare2 = this.totalRecord[tr].fare.price_per_adult.total_fare;
+          let tax1 = this.totalRecord[tr].fare.price_per_adult.tax;
+          let total = parseFloat(fare2) + parseFloat(tax1);
+          for (var  it = 0; it<1 ; it++){
+            let check1 = this.totalRecord[tr].itineraries[it].outbound.duration;
+             for(var ob = 0; ob<1 ; ob++){
+              this.totalRecord[tr].itineraries[it].outbound.flights[ob].departs_at = this.totalRecord[tr].itineraries[it].outbound.flights[ob].departs_at.split('T');
+              this.totalRecord[tr].itineraries[it].outbound.flights[ob].arrives_at = this.totalRecord[tr].itineraries[it].outbound.flights[ob].arrives_at.split('T');
               this.obj1 = {
-                airline: el.operating_airline,
-                flightCode: el.flight_number,
+                airline: this.totalRecord[tr].itineraries[it].outbound.flights[ob].operating_airline,
+                flightCode: this.totalRecord[tr].itineraries[it].outbound.flights[ob].flight_number,
                 source: this.source,
                 dest: this.destination,
                 fare: fare2,
                 tax: tax1,
                 final: total,
-                departureDate: el.departs_at[index],
-                departureTime: el.departs_at[index+1],
+                departureDate: this.totalRecord[tr].itineraries[it].outbound.flights[ob].departs_at[0],
+                departureTime: this.totalRecord[tr].itineraries[it].outbound.flights[ob].departs_at[1],
                 duration: check1
               }
               this.csvObj.push(this.obj1);
-              return false;
-            });
-            el.outbound.flights.every(el => {
-              el.arrives_at = el.arrives_at.split('T');
-              return false;
-            })
-            return false;
-          });
-        });
+             }
+          }
 
-        // for (let i = 0; i < this.totalRecord.itineraries[0].outbound.flights[0]; i++) {
-            
-        // }
 
-        // this.destination = this.airportObj[d.data.DestinationLocation];
-        // this.totalRecord = d.data.FareInfo;
-        // console.log(this.source, this.destination, this.totalRecord);
+        }
+  
         this.source = this.toTitleCase(this.source_name);
         this.destination = this.toTitleCase(this.dest_name);
         this.totalRecord = d.data.results;
