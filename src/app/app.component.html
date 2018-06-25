@@ -36,6 +36,7 @@
           </div>
         </div>
       </div>
+      <a *ngIf="flag" class="waves-effect waves-light btn" (click)="download()">export as csv</a>
     </div>
     <div *ngIf="flag" class="container" style="max-width:1000px;margin:20px auto;">
       <div class="table_outer">
