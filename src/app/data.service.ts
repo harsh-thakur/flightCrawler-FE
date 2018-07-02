@@ -23,8 +23,9 @@ export class DataService {
   //   });
   // }
   get(value){
-    return this.http.post('https://flightcrawler-be-wskpjrygvp.now.sh/api' + '/get', value).map(
-      (response) => response.json())
+    // return this.http.post('https://flightcrawler-be-wskpjrygvp.now.sh/api' + '/get', value).map(
+     return this.http.post( environment.USER_SERVER+ '/get', value).map( 
+    (response) => response.json())
       .catch(e => {
         if (e.status === 401) {
           console.log('Error');

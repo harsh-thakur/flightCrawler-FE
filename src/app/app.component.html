@@ -16,15 +16,42 @@
                 <div class="row">
                   <div class="outer_position col s6 change">
                     <h5 class="head">Source</h5>
-                    <input type="text" [(ngModel)]="source_name" name="src" id="inputSource" placeholder="Source">
+                    <input type="text" [(ngModel)]="source_name" name="src" id="inputSource" placeholder="From: City or Airport">
                   </div>
                   <div class="outer_position col s6">
                     <h5>Destination</h5>
-                    <input type="text" [(ngModel)]="dest_name" name="dest" id="inputDest" placeholder="destination">
+                    <input type="text" [(ngModel)]="dest_name" name="dest" id="inputDest" placeholder="To: City or Airport">
                   </div>
                   <div class="outer_position col s6">
-                    <h5>Journey Date</h5>
-                    <input id="date" type="text" class="datepicker">
+                    <h5>Departure Date</h5>
+                    <input id="fromDate" type="text" class="datepicker">
+                  </div>
+                  <div class="outer_position col s6">
+                    <h5>Return Date</h5>
+                    <input id="toDate" type="text" class="datepicker">
+                  </div>
+                  <div class="outer_position col s6">
+                    <h5>Prefered AirLine</h5>
+                    <select class="browser-default " id="flights" (change)="opt($event)" >
+                      <option value="all">All </option>
+                      <optgroup *ngFor="let air of airDropDown">
+                        <option  value="{{air?.code}}">{{air?.name}}</option>
+                      </optgroup>
+                    </select>
+                  </div>
+                  <div class="outer_position col s6 form-inline">
+                      <!-- <div class="col-md-12 col-sm-12 col-xs-12 pad0 marginT10 form-inline"> -->
+
+                            <label>
+                                <input name="group1" type="radio"  value="multiCity" id="1"checked/>
+                                <span style=" color:black">Multi City</span>
+                              </label>
+                              <label>
+                                  <input name="group1" type="radio"  id="2"value="nonStop">
+                                  <span style=" color:black">Non Stop</span>
+                                </label>
+                            
+                      <!-- </div> -->
                   </div>
                 </div>
                 <div class="outer_position">
@@ -54,6 +81,7 @@
               <th>Departure Time</th>
               <th>Arrival Time</th>
               <th>Travel Duration</th>
+              <th>Flight Type</th>
             </tr>
           </thead>
           <tbody>
@@ -91,6 +119,9 @@
                 </td>
                 <td>
                   {{i.itineraries[0].outbound.duration}} Hrs
+                </td>
+                <td>
+                  {{ i.itineraries[0].outbound.flights.length>1 ? 'Multi City' : 'Non Stop' }}
                 </td>
               </tr>
             </ng-container>
