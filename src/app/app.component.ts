@@ -294,7 +294,7 @@ export class AppComponent implements OnInit {
       }
       else {
         this.loading = false;
-        alert(d.msg)
+        alert("No data Found")
       }
     });
   }
@@ -311,8 +311,8 @@ export class AppComponent implements OnInit {
     }
 
     this.finaldate = this.datePipe.transform(date, "yyyy-MM-dd")
-    date = $('#toDate').val();
-    this.returnDate = this.datePipe.transform(date, "yyyy-MM-dd")
+    // date = $('#toDate').val();
+    // this.returnDate = this.datePipe.transform(date, "yyyy-MM-dd")
     var source, destination;
     try {
 
@@ -325,7 +325,6 @@ export class AppComponent implements OnInit {
       origin: source,
       dest: destination,
       originDate: this.finaldate,
-      returnDate: this.returnDate,
       option: this.option,
       prefer: this.preferedAir
     }
