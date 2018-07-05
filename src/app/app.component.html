@@ -16,11 +16,20 @@
                 <div class="row">
                   <div class="outer_position col s6 change">
                     <h5 class="head">Source</h5>
-                    <input type="text" [(ngModel)]="source_name" name="src" id="inputSource" placeholder="From: City or Airport">
+                    <div class="college_autocomplete_outer">
+                      <select id="collegeAutocomplete" class="browser-default"></select>
+                    </div>
+                    <!-- <div class="college_autocomplete_outer">
+                      <select id="collegeAutocomplete1" class="browser-default"></select>
+                    </div> -->
+                    <!-- <input type="text" [(ngModel)]="source_name" name="src" id="inputSource" > -->
                   </div>
                   <div class="outer_position col s6">
                     <h5>Destination</h5>
-                    <input type="text" [(ngModel)]="dest_name" name="dest" id="inputDest" placeholder="To: City or Airport">
+                    <div class="college_autocomplete_outer">
+                      <select id="collegeAutocomplete2" class="browser-default"></select>
+                    </div>
+                    <!-- <input type="text" [(ngModel)]="dest_name" name="dest" id="inputDest" placeholder="To: City or Airport"> -->
                   </div>
                   <div class="outer_position col s6">
                     <h5>Departure Date</h5>
