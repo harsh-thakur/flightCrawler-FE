@@ -335,12 +335,7 @@ export class AppComponent implements OnInit,AfterViewInit {
           }
         }, 100);
       },
-      // onItemAdd: function (value, $item) {
-      //   self.collegeId = value;
-      //   self.getAllStudent();
-      // }
     })
-    
 
   }
 
