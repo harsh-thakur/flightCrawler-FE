@@ -78,32 +78,8 @@ background-color: #9cbbf5;
 opacity: 0.5;
 }
 
-.college_autocomplete_outer { width:300px; height: auto; float:left; position: relative; margin:0 0 0 10px; }
-.college_autocomplete_outer #collegeAutocomplete1 {width:100%;height:auto;float:left;margin-bottom:20px}
-.college_autocomplete_outer #collegeAutocomplete2 {width:100%;height:auto;float:left;margin-bottom:20px}
-.college_autocomplete_outer .selectize-input input[type="text"]{width:100% !important;height:auto;float:left;color:#282828;font-size:14px;line-height:21px;position:relative;padding:7px 10px;margin-top:10px;background:#fff;border:1px solid #0196d4;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;-ms-border-radius:3px;-o-border-radius:3px;margin:0;box-sizing: border-box;}
-.college_autocomplete_outer .create { padding:4px 10px; }
+.college_autocomplete_outer { width:300px;min-height: 45px; max-height: 200px ; float:left; position: relative; margin:0 0 0 10px; background-color: white; overflow-y: scroll; overflow-x: hidden; cursor: pointer; }
 
-
-.college_autocomplete_outer .selectize-dropdown{position:absolute;content:'';z-index:10;background:#fff;max-height:250px;overflow-y:auto;-webkit-box-shadow:0 0 7px rgba(0,0,0,.35);-moz-box-shadow:0 0 7px rgba(0,0,0,.35);box-shadow:0 0 7px rgba(0,0,0,.35);-ms-box-shadow:0 0 7px rgba(0,0,0,.35);-o-box-shadow:0 0 7px rgba(0,0,0,.35);left:0;top:100%!important;width:100% !important;}
-.college_autocomplete_outer .selectize-dropdown div{width:100%!important;height:auto!important;float:left;text-align:left}
-.college_autocomplete_outer .optgroup-header{background:#f1f1f2;color:#282828;font-size:16px;font-weight:700;line-height:21px;padding:8px 10px}
-.college_autocomplete_outer .option{color:#4c4c4c;font-size:14px;line-height:21px;cursor:pointer;padding:4px 10px}
-.college_autocomplete_outer .option:hover{background:#f3f3f3}
-.college_autocomplete_outer .item{width:100%;height:auto;float:left;color:#282828;font-size:14px;line-height:21px;position:relative;padding:7px 10px;margin-top:10px;background:#fff;border:1px solid #0196d4;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;-ms-border-radius:3px;-o-border-radius:3px;margin:0;box-sizing: border-box;}
-.college_autocomplete_outer input[type="text"]{width:100%!important;height:56px;margin:0;float:left;border-color:transparent;padding:0 10px;box-sizing:border-box;color:#282828;font-size:16px;line-height:21px}
-.college_autocomplete_outer input[type="text"]::-webkit-input-placeholder{color:#282828}
-.college_autocomplete_outer input[type="text"]::-moz-placeholder{color:#282828}
-.college_autocomplete_outer input[type="text"]:-ms-input-placeholder{color:#282828}
-.college_autocomplete_outer input[type="text"]:-moz-placeholder{color:#282828}
-
-
-select#selected.browser-default {width:75%; display: inline-block;margin-bottom: 20px;}
-.marginB10{ margin-bottom:10px;}
-.marginT10{ margin-top:10px;}
-.paddingT10{ padding-top:10px;}
-
-
-
-
-
+div {
+  border-bottom: 1px black;
+}
