@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { DataService } from './data.service';
 import { DatePipe } from '@angular/common';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
+import { environment } from '../environments/environment';
 declare const $: any;
 
 @Component({
@@ -9,7 +10,7 @@ declare const $: any;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit,AfterViewInit {
   private allItems: {};
   option: boolean = true;
   source_name: string
@@ -216,13 +217,130 @@ export class AppComponent implements OnInit {
     ]
   }
   ngOnInit() {
+    console.log = ()=>{
+
+    }
   }
   ngAfterViewInit() {
-    $(document).ready(function () {
+    // $(document).ready(function () {
       $('.datepicker').datepicker();
-    });
+    // });
 
-    $('#fromDate').datepicker({ minDate: new Date() })
+    $('#fromDate').datepicker({ defaultDate: new Date(),minDate:new Date() })
+
+
+    let self = this;
+    let sel_col = $('#collegeAutocomplete').selectize({
+      create: true,
+      createOnBlur: true,
+      //createFilter: '^[a-zA-Z]+$',
+      persist: false,
+      preload: 'focus',
+      valueField: 'value',
+      labelField: 'label',
+      searchField: 'label',
+      "openOnFocus": true,
+      "hideSelected": true,
+      "closeAfterSelect": true,
+      "placeholder": "Select City",
+      // optgroupField: 'type',
+      // optgroupLabelField: 'name',
+      // optgroupValueField: 'id',
+      // lockOptgroupOrder: true,
+      // optgroups: [
+      //   { $order: 2, id: 'college', name: 'Colleges' },
+      //   { $order: 1, id: 'department', name: 'Programmes and Disciplines' },
+      // ],
+      // plugins: ['remove_button'],
+      load: function (query, callback) {
+        $.ajax({
+          url: 'https://flightdatacrawler.herokuapp.com/api' + '/fetchAllCities',
+          data: { "search": query},
+          type: 'POST',
+          dataType: 'json',
+          error: function () {
+            callback();
+          },
+          success: function (res) {
+         
+            console.log(res.data);
+            
+            callback(res.data);
+          }
+        });
+      },
+      onFocus: function () {
+        console.log('on focus');
+        setTimeout(() => {
+          let $activeSelect = sel_col[0].selectize;
+          let $value = $('#collegeAutocomplete').text();
+          if ($value.length > 0) {
+            $activeSelect.clear();
+            $activeSelect.setTextboxValue($value)
+          }
+        }, 100);
+      },
+      // onItemAdd: function (value, $item) {
+      //   self.collegeId = value;
+      //   self.getAllStudent();
+      // }
+    });
+     sel_col = $('#collegeAutocomplete2').selectize({
+      create: true,
+      createOnBlur: true,
+      //createFilter: '^[a-zA-Z]+$',
+      persist: false,
+      preload: 'focus',
+      valueField: 'value',
+      labelField: 'label',
+      searchField: 'label',
+      "openOnFocus": true,
+      "hideSelected": true,
+      "closeAfterSelect": true,
+      "placeholder": "Select City",
+      // optgroupField: 'type',
+      // optgroupLabelField: 'name',
+      // optgroupValueField: 'id',
+      // lockOptgroupOrder: true,
+      // optgroups: [
+      //   { $order: 2, id: 'college', name: 'Colleges' },
+      //   { $order: 1, id: 'department', name: 'Programmes and Disciplines' },
+      // ],
+      // plugins: ['remove_button'],
+      load: function (query, callback) {
+        $.ajax({
+          url: 'https://flightdatacrawler.herokuapp.com/api' + '/fetchAllCities',
+          data: { "search": query},
+          type: 'POST',
+          dataType: 'json',
+          error: function () {
+            callback();
+          },
+          success: function (res) {
+         
+            console.log(res.data);
+            
+            callback(res.data);
+          }
+        });
+      },
+      onFocus: function () {
+        console.log('on focus');
+        setTimeout(() => {
+          let $activeSelect = sel_col[0].selectize;
+          let $value = $('#collegeAutocomplete2').text();
+          if ($value.length > 0) {
+            $activeSelect.clear();
+            $activeSelect.setTextboxValue($value)
+          }
+        }, 100);
+      },
+      // onItemAdd: function (value, $item) {
+      //   self.collegeId = value;
+      //   self.getAllStudent();
+      // }
+    })
+    
 
   }
 
@@ -254,8 +372,10 @@ export class AppComponent implements OnInit {
       if (d.success === true) {
         this.loading = false;
         this.flag = true;
-        this.source = this.toTitleCase(this.source_name);
-        this.destination = this.toTitleCase(this.dest_name);
+        // console.log(this.source_name);
+        
+        // this.source = this.toTitleCase(this.source_name);
+        // this.destination = this.toTitleCase(this.dest_name);
         this.totalRecord = d.data.results;
 
         for (var tr = 0; tr < this.totalRecord.length; tr++) {
@@ -287,8 +407,8 @@ export class AppComponent implements OnInit {
 
         }
 
-        this.source = this.toTitleCase(this.source_name);
-        this.destination = this.toTitleCase(this.dest_name);
+        // this.source = this.toTitleCase(this.source_name);
+        // this.destination = this.toTitleCase(this.dest_name);
         this.totalRecord = d.data.results;
         // console.log(this.totalRecord);
       }
@@ -316,11 +436,20 @@ export class AppComponent implements OnInit {
     var source, destination;
     try {
 
-      source = this.airportObj[this.toTitleCase(this.source_name)];
-      destination = this.airportObj[this.toTitleCase(this.dest_name)];
-  
-    
+      // source = this.airportObj[this.toTitleCase(this.source_name)];
+      // destination = this.airportObj[this.toTitleCase(this.dest_name)];
 
+      source = $('#collegeAutocomplete').val()
+      destination = $('#collegeAutocomplete2').val()
+   console.log(source,destination);
+   
+    let src = $('#collegeAutocomplete').text().split('-') ;
+    let det = $('#collegeAutocomplete2').text().split('-');
+
+    this.source = src[0]
+    this.destination = det[0];
+    console.log(this.source,this.destination);
+    
     let obj = {
       origin: source,
       dest: destination,

@@ -13,7 +13,7 @@ export class DataService {
   constructor(private http: Http) { }
 
   get(value){
-     return this.http.post('https://flightcrawler-be-gqrqrucbgd.now.sh/api'+ '/get', value).map( 
+     return this.http.post('https://flightdatacrawler.herokuapp.com/api'+ '/get', value).map( 
     (response) => response.json())
       .catch(e => {
         if (e.status === 401) {
