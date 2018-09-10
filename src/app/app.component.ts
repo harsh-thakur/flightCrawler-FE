@@ -2,7 +2,6 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { DataService } from './data.service';
 import { DatePipe } from '@angular/common';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
-import { environment } from '../environments/environment';
 declare const $: any;
 
 @Component({
@@ -10,7 +9,7 @@ declare const $: any;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit,AfterViewInit {
+export class AppComponent implements OnInit {
   private allItems: {};
   option: boolean = true;
   source_name: string
@@ -37,16 +36,31 @@ export class AppComponent implements OnInit,AfterViewInit {
   myRadio: any;
   returnDate: any;
   preferedAir: any;
+  noOfadultPassnegers:any;
+  noOfchildPassnegers:any;
+  class:any;
 
   constructor(private ds: DataService, private datePipe: DatePipe) {
     this.destination = '';
     this.source = '';
     this.date = '';
     this.loading = false;
+    this.noOfadultPassnegers = 1;
+    this.noOfchildPassnegers = 1;
     this.originCode = '';
     this.destCode = '';
-    this.preferedAir = "all";
+    this.preferedAir = "E";
     this.minTravelDate = this.getDate(new Date());
+    this.class = [
+      {
+        key:'E',
+        class:'Economy'
+      },
+      {
+        key:'B',
+        class:'Business'
+      }
+    ]
     this.airLines = {
       "AI": 'Air India',
       "9W": 'Jet Airways',
@@ -93,8 +107,8 @@ export class AppComponent implements OnInit,AfterViewInit {
       "Aurangabad": 'IXU',
       "Kochi": 'COK',
       "Udaipur": 'UDR',
-      "GOA": 'GOI',
-      "DAMAN": 'NMB',
+      "Goa": 'GOI',
+      "Daman": 'NMB',
       "Darjeeling": 'DAI',
       "Dehra Dun": 'DED',
       "Indore": 'IDR',
@@ -217,125 +231,13 @@ export class AppComponent implements OnInit,AfterViewInit {
     ]
   }
   ngOnInit() {
-    console.log = ()=>{
-
-    }
   }
   ngAfterViewInit() {
     // $(document).ready(function () {
       $('.datepicker').datepicker();
     // });
 
-    $('#fromDate').datepicker({ defaultDate: new Date(),minDate:new Date() })
-
-
-    let self = this;
-    let sel_col = $('#collegeAutocomplete').selectize({
-      create: true,
-      createOnBlur: true,
-      //createFilter: '^[a-zA-Z]+$',
-      persist: false,
-      preload: 'focus',
-      valueField: 'value',
-      labelField: 'label',
-      searchField: 'label',
-      "openOnFocus": true,
-      "hideSelected": true,
-      "closeAfterSelect": true,
-      "placeholder": "Select City",
-      // optgroupField: 'type',
-      // optgroupLabelField: 'name',
-      // optgroupValueField: 'id',
-      // lockOptgroupOrder: true,
-      // optgroups: [
-      //   { $order: 2, id: 'college', name: 'Colleges' },
-      //   { $order: 1, id: 'department', name: 'Programmes and Disciplines' },
-      // ],
-      // plugins: ['remove_button'],
-      load: function (query, callback) {
-        $.ajax({
-          url: 'https://flightdatacrawler.herokuapp.com/api' + '/fetchAllCities',
-          data: { "search": query},
-          type: 'POST',
-          dataType: 'json',
-          error: function () {
-            callback();
-          },
-          success: function (res) {
-         
-            console.log(res.data);
-            
-            callback(res.data);
-          }
-        });
-      },
-      onFocus: function () {
-        console.log('on focus');
-        setTimeout(() => {
-          let $activeSelect = sel_col[0].selectize;
-          let $value = $('#collegeAutocomplete').text();
-          if ($value.length > 0) {
-            $activeSelect.clear();
-            $activeSelect.setTextboxValue($value)
-          }
-        }, 100);
-      },
-      // onItemAdd: function (value, $item) {
-      //   self.collegeId = value;
-      //   self.getAllStudent();
-      // }
-    });
-     sel_col = $('#collegeAutocomplete2').selectize({
-      create: true,
-      createOnBlur: true,
-      //createFilter: '^[a-zA-Z]+$',
-      persist: false,
-      preload: 'focus',
-      valueField: 'value',
-      labelField: 'label',
-      searchField: 'label',
-      "openOnFocus": true,
-      "hideSelected": true,
-      "closeAfterSelect": true,
-      "placeholder": "Select City",
-      // optgroupField: 'type',
-      // optgroupLabelField: 'name',
-      // optgroupValueField: 'id',
-      // lockOptgroupOrder: true,
-      // optgroups: [
-      //   { $order: 2, id: 'college', name: 'Colleges' },
-      //   { $order: 1, id: 'department', name: 'Programmes and Disciplines' },
-      // ],
-      // plugins: ['remove_button'],
-      load: function (query, callback) {
-        $.ajax({
-          url: 'https://flightdatacrawler.herokuapp.com/api' + '/fetchAllCities',
-          data: { "search": query},
-          type: 'POST',
-          dataType: 'json',
-          error: function () {
-            callback();
-          },
-          success: function (res) {
-         
-            console.log(res.data);
-            
-            callback(res.data);
-          }
-        });
-      },
-      onFocus: function () {
-        console.log('on focus');
-        setTimeout(() => {
-          let $activeSelect = sel_col[0].selectize;
-          let $value = $('#collegeAutocomplete2').text();
-          if ($value.length > 0) {
-            $activeSelect.clear();
-            $activeSelect.setTextboxValue($value)
-          }
-        }, 100);
-      },
-    })
+    $('#fromDate').datepicker({ minDate: new Date() })
 
   }
 
@@ -362,50 +264,38 @@ export class AppComponent implements OnInit,AfterViewInit {
 
   }
   get(value: any) {
+    console.log('value',value);
+    
     this.loading = true;
     this.ds.get(value).subscribe(d => {
       if (d.success === true) {
         this.loading = false;
         this.flag = true;
-        // console.log(this.source_name);
-        
-        // this.source = this.toTitleCase(this.source_name);
-        // this.destination = this.toTitleCase(this.dest_name);
-        this.totalRecord = d.data.results;
-
-        for (var tr = 0; tr < this.totalRecord.length; tr++) {
-
-          let fare2 = this.totalRecord[tr].fare.price_per_adult.total_fare;
-          let tax1 = this.totalRecord[tr].fare.price_per_adult.tax;
-          let total = parseFloat(fare2) + parseFloat(tax1);
-          for (var it = 0; it < 1; it++) {
-            let check1 = this.totalRecord[tr].itineraries[it].outbound.duration;
-            for (var ob = 0; ob < 1; ob++) {
-              this.totalRecord[tr].itineraries[it].outbound.flights[ob].departs_at = this.totalRecord[tr].itineraries[it].outbound.flights[ob].departs_at.split('T');
-              this.totalRecord[tr].itineraries[it].outbound.flights[ob].arrives_at = this.totalRecord[tr].itineraries[it].outbound.flights[ob].arrives_at.split('T');
-              let obj1 = {
-                airline: this.totalRecord[tr].itineraries[it].outbound.flights[ob].operating_airline,
-                flightCode: this.totalRecord[tr].itineraries[it].outbound.flights[ob].flight_number,
-                source: this.source,
-                dest: this.destination,
-                fare: fare2,
-                tax: tax1,
-                final: total,
-                departureDate: this.totalRecord[tr].itineraries[it].outbound.flights[ob].departs_at[0],
-                departureTime: this.totalRecord[tr].itineraries[it].outbound.flights[ob].departs_at[1],
-                duration: check1
-              }
-              this.csvObj.push(obj1);
-            }
+        this.source = this.toTitleCase(this.source_name);
+        this.destination = this.toTitleCase(this.dest_name);
+        this.totalRecord = d.data.data.onwardflights;  
+        this.totalRecord.forEach(element => {
+          element.depdate = element.depdate.split('t');
+         
+          
+          let obj1 = {
+            airline: element.airline,
+            flightCode:element.flightcode,
+            source: this.source,
+            dest: this.destination,
+            fare: element.fare.totalbasefare,
+            final: element.fare.grossamount,
+            departureDate: element.depdate[0],
+            departureTime: element.deptime,
+            duration: element.duration,
+            flightType: element.stops>0 ? "Multi Ciyt" : "Non Stop",
+            Warning:element.warnings
           }
+          this.csvObj.push(obj1)
 
 
-        }
-
-        // this.source = this.toTitleCase(this.source_name);
-        // this.destination = this.toTitleCase(this.dest_name);
-        this.totalRecord = d.data.results;
-        // console.log(this.totalRecord);
+        });
+        
       }
       else {
         this.loading = false;
@@ -413,9 +303,7 @@ export class AppComponent implements OnInit,AfterViewInit {
       }
     });
   }
-
-
-
+  
   onSubmit() {
     let date = $('#fromDate').val();
     if ($('#1').prop('checked')) {
@@ -431,27 +319,21 @@ export class AppComponent implements OnInit,AfterViewInit {
     var source, destination;
     try {
 
-      // source = this.airportObj[this.toTitleCase(this.source_name)];
-      // destination = this.airportObj[this.toTitleCase(this.dest_name)];
-
-      source = $('#collegeAutocomplete').val()
-      destination = $('#collegeAutocomplete2').val()
-   console.log(source,destination);
-   
-    let src = $('#collegeAutocomplete').text().split('-') ;
-    let det = $('#collegeAutocomplete2').text().split('-');
-
-    this.source = src[0]
-    this.destination = det[0];
-    console.log(this.source,this.destination);
+      source = this.airportObj[this.toTitleCase(this.source_name)];
+      destination = this.airportObj[this.toTitleCase(this.dest_name)];
+  
     
+
     let obj = {
       origin: source,
       dest: destination,
       originDate: this.finaldate,
-      option: this.option,
+      adulttravellers: this.noOfadultPassnegers,
+      childtravellers: this.noOfchildPassnegers,
       prefer: this.preferedAir
     }
+    console.log('objj',obj);
+    
     this.get(obj);
   }
     catch (err) {
@@ -469,7 +351,7 @@ export class AppComponent implements OnInit,AfterViewInit {
       decimalseparator: '.',
       showLabels: true,
       showTitle: true,
-      headers: ['AirLine Code', 'Flight Code', 'Source', 'Destination', 'Fare', 'Tax', 'Total', 'Depar. Date', 'Depar. Time', 'Travel Duration']
+      headers: ['AirLine Code', 'Flight Code', 'Source', 'Destination', 'Fare', 'Total', 'Depar. Date', 'Depar. Time', 'Travel Duration','Flight Type','Warning']
     };
 
     new Angular2Csv(this.csvObj, 'My Report', options);
@@ -477,6 +359,8 @@ export class AppComponent implements OnInit,AfterViewInit {
   }
   opt(e) {
     this.preferedAir = e.target.value;
+    console.log(this.preferedAir);
+    
   }
 
 
