@@ -23,8 +23,12 @@
                     <input type="text" [(ngModel)]="dest_name" name="dest" id="inputDest" placeholder="To: City or Airport">
                   </div>
                   <div class="outer_position col s12">
-                    <h5>Departure Date</h5>
+                    <h5>Departure Date | from date</h5>
                     <input id="fromDate" type="text" class="datepicker">
+                  </div>
+                  <div class="outer_position col s12">
+                    <h5>To Date</h5>
+                    <input id="toDate" type="text" class="datepicker">
                   </div>
                   <div class="outer_position col s6">
                     <h5>Adults</h5>
@@ -67,15 +71,6 @@
       <a *ngIf="flag" class="waves-effect waves-light btn" (click)="download()">export as csv</a>
     </div>
 
-    <div class="contains col s10 m10">
-      <div class="row" *ngFor="let i of totalRecord">
-        <div class="col s12 m12">
-          <div class="card-panel grey bold">
-            {{i?.airline}} ({{i?.carrierid}}) &emsp;&emsp; {{i?.flightcode}} &emsp;&emsp; {{source}} &emsp;&emsp; {{i?.duration}} &emsp;&emsp; {{destination}} &emsp;&emsp;{{i?.deptime}}&emsp;&emsp;{{i?.depdate[0]}}&emsp;&emsp;₹{{i?.fare?.totalbasefare}} &emsp;&emsp;{{i?.stops>0 ? "Multi City":"Non Stop"}} &emsp;&emsp;{{i?.warnings}}
-          </div>
-        </div>
-      </div>
-    </div>
     
     <div *ngIf="flag" class="container" style="max-width:1000px;margin:20px auto;">
       <div class="table_outer">
@@ -91,18 +86,18 @@
               <th>Departure Date</th>
               <th>Departure Time</th>
               <th>Travel Duration</th>
-              <th>Flight Type</th>
-              <th>Warnings</th>
+              <!-- <th>Flight Type</th>
+              <th>Warnings</th> -->
             </tr>
           </thead>
           <tbody>
-            <ng-container *ngFor="let i of totalRecord">
+            <ng-container *ngFor="let i of flightDetails">
               <tr>
                 <td>
-                  {{i?.airline}} ({{i?.carrierid}})
+                  {{i?.airline_name}}
                 </td>
                 <td>
-                  {{i?.flightcode}}
+                  {{i?.flight_code}}
                 </td>
                 <td>
                   {{source}}
@@ -111,26 +106,26 @@
                   {{destination}}
                 </td>
                 <td>
-                  ₹{{i?.fare?.totalbasefare}}
+                  ₹{{i?.fare}}
                 </td>
                 <td>
-                  ₹{{i?.fare?.grossamount}}
+                  ₹{{i?.totalFare}}
                 </td>
                 <td>
-                  {{i?.depdate[0]}}
+                  {{dated}}
                 </td>
                 <td>
-                  {{i?.deptime}}
+                  {{timed}}
                 </td>
                 <td>
-                  {{i?.duration}}
+                  {{i?.travelDuration}}
                 </td>
-                <td>
+                <!-- <td>
                   {{i?.stops>0 ? "Multi City":"Non Stop"}}
                 </td>
                 <td>
                   {{i?.warnings}}
-                </td>
+                </td> -->
               </tr>
               <br>
             </ng-container>

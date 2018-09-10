@@ -22,6 +22,16 @@ export class DataService {
         return [];
       });
   }
+  getData(value){
+    return this.http.post(environment.USER_SERVER + '/getFlightDetails', value).map( 
+      (response) => response.json())
+        .catch(e => {
+          if (e.status === 401) {
+            console.log('Error');
+          }
+          return [];
+        });
+  }
 
 
 }

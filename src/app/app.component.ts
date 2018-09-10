@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { DataService } from './data.service';
 import { DatePipe } from '@angular/common';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
+import * as moment from 'moment';
 declare const $: any;
 
 @Component({
@@ -33,12 +34,17 @@ export class AppComponent implements OnInit {
   csvObj: any = new Array();
   finaldate: any;
   airDropDown: any;
+  todayDate: any;
   myRadio: any;
   returnDate: any;
+  toDate;
+  dated;
+  timed;
   preferedAir: any;
   noOfadultPassnegers:any;
   noOfchildPassnegers:any;
   class:any;
+  flightDetails;
 
   constructor(private ds: DataService, private datePipe: DatePipe) {
     this.destination = '';
@@ -231,6 +237,7 @@ export class AppComponent implements OnInit {
     ]
   }
   ngOnInit() {
+    this.todayDate = new Date();
   }
   ngAfterViewInit() {
     // $(document).ready(function () {
@@ -238,6 +245,7 @@ export class AppComponent implements OnInit {
     // });
 
     $('#fromDate').datepicker({ minDate: new Date() })
+    $('#toDate').datepicker({ minDate: new Date() })
 
   }
 
@@ -264,37 +272,45 @@ export class AppComponent implements OnInit {
 
   }
   get(value: any) {
-    console.log('value',value);
+    // console.log('value',value);
     
     this.loading = true;
-    this.ds.get(value).subscribe(d => {
+    this.ds.getData(value).subscribe(d => {
       if (d.success === true) {
         this.loading = false;
         this.flag = true;
         this.source = this.toTitleCase(this.source_name);
         this.destination = this.toTitleCase(this.dest_name);
-        this.totalRecord = d.data.data.onwardflights;  
-        this.totalRecord.forEach(element => {
-          element.depdate = element.depdate.split('t');
-         
+        this.flightDetails = d.data[0].flightDetails;
+        // let now = moment(, 'mm/dd/yyyy');
+        this.flightDetails.forEach(el => {
+          el.depDate  = el.depDate.split('T')
+          this.dated = el.depDate[0];
+          this.timed = el.depDate[1];
+        
+        }); 
+        
+        // this.flightDetails.forEach(element => {
+        //   element.depdate = element.depdate.split('T');
+        // })
           
-          let obj1 = {
-            airline: element.airline,
-            flightCode:element.flightcode,
-            source: this.source,
-            dest: this.destination,
-            fare: element.fare.totalbasefare,
-            final: element.fare.grossamount,
-            departureDate: element.depdate[0],
-            departureTime: element.deptime,
-            duration: element.duration,
-            flightType: element.stops>0 ? "Multi Ciyt" : "Non Stop",
-            Warning:element.warnings
-          }
-          this.csvObj.push(obj1)
+        //   let obj1 = {
+        //     airline: element.airline,
+        //     flightCode:element.flightcode,
+        //     source: this.source,
+        //     dest: this.destination,
+        //     fare: element.fare.totalbasefare,
+        //     final: element.fare.grossamount,
+        //     departureDate: element.depdate[0],
+        //     departureTime: element.deptime,
+        //     duration: element.duration,
+        //     flightType: element.stops>0 ? "Multi Ciyt" : "Non Stop",
+        //     Warning:element.warnings
+        //   }
+        //   this.csvObj.push(obj1)
 
 
-        });
+        // });
         
       }
       else {
@@ -305,7 +321,8 @@ export class AppComponent implements OnInit {
   }
   
   onSubmit() {
-    let date = $('#fromDate').val();
+    let date1 = $('#fromDate').val();
+    let date2 = $('#toDate').val();
     if ($('#1').prop('checked')) {
       this.option = true;
     }
@@ -313,7 +330,9 @@ export class AppComponent implements OnInit {
       this.option = false;
     }
 
-    this.finaldate = this.datePipe.transform(date, "yyyy-MM-dd")
+    this.finaldate = this.datePipe.transform(date1, "yyyy-MM-dd")
+    this.toDate = this.datePipe.transform(date2, "yyyy-MM-dd")
+
     // date = $('#toDate').val();
     // this.returnDate = this.datePipe.transform(date, "yyyy-MM-dd")
     var source, destination;
@@ -321,20 +340,23 @@ export class AppComponent implements OnInit {
 
       source = this.airportObj[this.toTitleCase(this.source_name)];
       destination = this.airportObj[this.toTitleCase(this.dest_name)];
-  
+      // source = this.source_name.toLowerCase();
+      // destination = this.dest_name.toLowerCase();
     
 
     let obj = {
       origin: source,
-      dest: destination,
+      destination: destination,
       originDate: this.finaldate,
+      toDate: this.toDate,
       adulttravellers: this.noOfadultPassnegers,
       childtravellers: this.noOfchildPassnegers,
       prefer: this.preferedAir
     }
-    console.log('objj',obj);
+    // console.log('objj',obj);
     
     this.get(obj);
+    
   }
     catch (err) {
       window.alert("Enter Correct Information");
@@ -359,7 +381,7 @@ export class AppComponent implements OnInit {
   }
   opt(e) {
     this.preferedAir = e.target.value;
-    console.log(this.preferedAir);
+    // console.log(this.preferedAir);
     
   }
 
